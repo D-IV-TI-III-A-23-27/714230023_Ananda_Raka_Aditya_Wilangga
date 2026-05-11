@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAN - Generative Adversarial Network | Ilustrasi Interaktif</title>
+  <meta name="description" content="Ilustrasi interaktif Generative Adversarial Network (GAN) – arsitektur AI yang revolusioner untuk menghasilkan data sintetis yang realistis." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ─── HERO SECTION ─── -->
+  <header class="hero">
+    <div class="hero-bg">
+      <canvas id="particleCanvas"></canvas>
+    </div>
+    <nav class="navbar">
+      <div class="nav-brand">
+        <span class="nav-icon">🧠</span>
+        <span>GAN Architecture</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#architecture">Arsitektur</a></li>
+        <li><a href="#demo">Demo</a></li>
+        <li><a href="#training">Training</a></li>
+        <li><a href="#applications">Aplikasi</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero-content">
+      <div class="hero-badge">Deep Learning Architecture</div>
+      <h1 class="hero-title">
+        <span class="gradient-text">Generative</span><br />
+        <span class="gradient-text-2">Adversarial</span><br />
+        <span>Network</span>
+      </h1>
+      <p class="hero-subtitle">
+        Dua jaringan saraf yang saling bersaing untuk menciptakan <br />
+        konten sintetis yang tidak bisa dibedakan dari yang asli.
+      </p>
+      <div class="hero-buttons">
+        <a href="#demo" class="btn btn-primary" id="hero-demo-btn">
+          <span>▶</span> Lihat Demo
+        </a>
+        <a href="#architecture" class="btn btn-outline" id="hero-arch-btn">
+          Jelajahi Arsitektur
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-value">2014</span>
+          <span class="stat-label">Tahun Diciptakan</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-value">2</span>
+          <span class="stat-label">Neural Networks</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-value">∞</span>
+          <span class="stat-label">Kemungkinan Output</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <span>Scroll ke bawah</span>
+      <div class="scroll-indicator"></div>
+    </div>
+  </header>
+
+  <!-- ─── OVERVIEW SECTION ─── -->
+  <section id="overview" class="section overview-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Pengenalan</div>
+        <h2>Apa itu GAN?</h2>
+        <p>GAN adalah kerangka pembelajaran mesin generatif yang diperkenalkan oleh <strong>Ian Goodfellow</strong> et al. pada tahun 2014.</p>
+      </div>
+
+      <div class="overview-cards">
+        <div class="overview-card card-generator" id="card-gen">
+          <div class="card-icon">🎨</div>
+          <h3>Generator (G)</h3>
+          <p>Mencoba <em>membuat</em> data palsu yang menyerupai data asli. Ia belajar untuk "menipu" Discriminator.</p>
+          <div class="card-formula">G(z) → x_fake</div>
+          <div class="card-tag">Penipu</div>
+        </div>
+
+        <div class="vs-badge">
+          <span>VS</span>
+          <div class="vs-lines">
+            <div class="vs-line"></div>
+            <div class="vs-line"></div>
+          </div>
+        </div>
+
+        <div class="overview-card card-discriminator" id="card-disc">
+          <div class="card-icon">🔍</div>
+          <h3>Discriminator (D)</h3>
+          <p>Mencoba <em>membedakan</em> data asli dari data palsu. Ia belajar untuk "mendeteksi" kebohongan Generator.</p>
+          <div class="card-formula">D(x) → [0, 1]</div>
+          <div class="card-tag">Detektif</div>
+        </div>
+      </div>
+
+      <div class="minimax-box">
+        <div class="minimax-label">Fungsi Objektif GAN (Minimax Game)</div>
+        <div class="minimax-formula">
+          <span class="formula-min">min</span>
+          <span class="formula-g">G</span>
+          <span class="formula-space"></span>
+          <span class="formula-max">max</span>
+          <span class="formula-d">D</span>
+          <span class="formula-main">
+            V(D,G) = 𝔼<sub>x~p<sub>data</sub></sub>[log D(x)] + 𝔼<sub>z~p<sub>z</sub></sub>[log(1 − D(G(z)))]
+          </span>
+        </div>
+        <p class="minimax-desc">Generator meminimalkan, Discriminator memaksimalkan nilai fungsi ini — sebuah zero-sum game.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── ARCHITECTURE SECTION ─── -->
+  <section id="architecture" class="section arch-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Arsitektur</div>
+        <h2>Struktur Jaringan GAN</h2>
+        <p>Visualisasi interaktif aliran data melalui kedua jaringan</p>
+      </div>
+
+      <div class="arch-diagram" id="archDiagram">
+        <!-- NOISE INPUT -->
+        <div class="arch-block noise-block" id="noiseBlock">
+          <div class="block-icon">🎲</div>
+          <div class="block-title">Noise Vector</div>
+          <div class="block-subtitle">z ~ N(0,1)</div>
+          <div class="noise-viz" id="noiseViz"></div>
+        </div>
+
+        <!-- ARROW -->
+        <div class="arch-arrow" id="arrow1">
+          <div class="arrow-line"></div>
+          <div class="arrow-label">input</div>
+          <div class="arrow-head">▶</div>
+        </div>
+
+        <!-- GENERATOR -->
+        <div class="arch-block generator-block" id="generatorBlock">
+          <div class="block-icon">⚡</div>
+          <div class="block-title">Generator</div>
+          <div class="block-subtitle">G(z)</div>
+          <div class="layer-viz generator-layers">
+            <div class="layer" data-label="FC 128">
+              <div class="layer-bar"></div>
+              <span>FC 128</span>
+            </div>
+            <div class="layer" data-label="FC 256">
+              <div class="layer-bar"></div>
+              <span>FC 256</span>
+            </div>
+            <div class="layer" data-label="FC 512">
+              <div class="layer-bar"></div>
+              <span>FC 512</span>
+            </div>
+            <div class="layer" data-label="Output">
+              <div class="layer-bar"></div>
+              <span>Output</span>
+            </div>
+          </div>
+          <div class="block-note">ReLU / BatchNorm / Tanh</div>
+        </div>
+
+        <!-- ARROW -->
+        <div class="arch-arrow" id="arrow2">
+          <div class="arrow-line"></div>
+          <div class="arrow-label">x_fake</div>
+          <div class="arrow-head">▶</div>
+        </div>
+
+        <!-- FAKE / REAL MERGE -->
+        <div class="arch-block merge-block" id="mergeBlock">
+          <div class="block-icon">🔀</div>
+          <div class="block-title">Data Input</div>
+          <div class="merge-lanes">
+            <div class="merge-lane fake-lane">
+              <span class="lane-badge fake-badge">FAKE</span>
+              <span>Generated</span>
+            </div>
+            <div class="merge-lane real-lane">
+              <span class="lane-badge real-badge">REAL</span>
+              <span>Original</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ARROW -->
+        <div class="arch-arrow" id="arrow3">
+          <div class="arrow-line"></div>
+          <div class="arrow-label">input</div>
+          <div class="arrow-head">▶</div>
+        </div>
+
+        <!-- DISCRIMINATOR -->
+        <div class="arch-block discriminator-block" id="discriminatorBlock">
+          <div class="block-icon">🔍</div>
+          <div class="block-title">Discriminator</div>
+          <div class="block-subtitle">D(x)</div>
+          <div class="layer-viz discriminator-layers">
+            <div class="layer" data-label="FC 512">
+              <div class="layer-bar"></div>
+              <span>FC 512</span>
+            </div>
+            <div class="layer" data-label="FC 256">
+              <div class="layer-bar"></div>
+              <span>FC 256</span>
+            </div>
+            <div class="layer" data-label="FC 128">
+              <div class="layer-bar"></div>
+              <span>FC 128</span>
+            </div>
+            <div class="layer" data-label="Sigmoid">
+              <div class="layer-bar"></div>
+              <span>Sigmoid</span>
+            </div>
+          </div>
+          <div class="block-note">LeakyReLU / Dropout</div>
+        </div>
+
+        <!-- ARROW -->
+        <div class="arch-arrow" id="arrow4">
+          <div class="arrow-line"></div>
+          <div class="arrow-label">output</div>
+          <div class="arrow-head">▶</div>
+        </div>
+
+        <!-- OUTPUT -->
+        <div class="arch-block output-block" id="outputBlock">
+          <div class="block-icon">📊</div>
+          <div class="block-title">Keputusan</div>
+          <div class="output-gauge" id="outputGauge">
+            <div class="gauge-bar">
+              <div class="gauge-fill" id="gaugeFill" style="width: 50%"></div>
+            </div>
+            <div class="gauge-labels">
+              <span>Palsu</span>
+              <span>Asli</span>
+            </div>
+            <div class="gauge-value" id="gaugeValue">0.50</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEEDBACK ARROWS -->
+      <div class="feedback-section">
+        <div class="feedback-arrow gen-feedback" id="genFeedback">
+          <div class="feedback-line"></div>
+          <div class="feedback-text">
+            <span class="fb-icon">↺</span>
+            <span>Gradient update ke Generator (loss D berhasil tipu)</span>
+          </div>
+        </div>
+        <div class="feedback-arrow disc-feedback" id="discFeedback">
+          <div class="feedback-line"></div>
+          <div class="feedback-text">
+            <span class="fb-icon">↺</span>
+            <span>Gradient update ke Discriminator (loss klasifikasi)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ANIMATE BUTTON -->
+      <div class="arch-controls">
+        <button class="btn btn-primary" id="animateBtn" onclick="animateFlow()">
+          ▶ Animasi Aliran Data
+        </button>
+        <button class="btn btn-outline" id="resetBtn" onclick="resetFlow()">
+          ↺ Reset
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── INTERACTIVE DEMO SECTION ─── -->
+  <section id="demo" class="section demo-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Demo Interaktif</div>
+        <h2>GAN Canvas Demo</h2>
+        <p>Simulasikan proses GAN menghasilkan gambar pixel art secara visual</p>
+      </div>
+
+      <div class="demo-layout">
+        <!-- LEFT: Noise & Generated -->
+        <div class="demo-panel" id="demo-left">
+          <div class="panel-header">
+            <span class="panel-icon">🎲</span>
+            <h3>Noise Input (z)</h3>
+          </div>
+          <canvas id="noiseCanvas" width="200" height="200"></canvas>
+          <div class="panel-info">Random latent vector z ∈ ℝ<sup>100</sup></div>
+          <button class="btn btn-sm" id="newNoiseBtn" onclick="generateNewNoise()">
+            🎲 Noise Baru
+          </button>
+        </div>
+
+        <!-- CENTER: Generator Process -->
+        <div class="demo-center" id="demo-center">
+          <div class="process-flow">
+            <div class="process-step" id="step-g">
+              <div class="process-icon g-icon">G</div>
+              <span>Generator</span>
+            </div>
+            <div class="process-arrow-vert">↓</div>
+            <canvas id="fakeCanvas" width="200" height="200"></canvas>
+            <div class="panel-info">Generated Image (x_fake)</div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Discriminator Decision -->
+        <div class="demo-panel" id="demo-right">
+          <div class="panel-header">
+            <span class="panel-icon">🔍</span>
+            <h3>Discriminator</h3>
+          </div>
+          <div class="disc-input-comparison">
+            <div class="comp-item">
+              <canvas id="realSampleCanvas" width="90" height="90"></canvas>
+              <span>Real</span>
+            </div>
+            <div class="comp-item">
+              <canvas id="fakeSampleCanvas" width="90" height="90"></canvas>
+              <span>Fake</span>
+            </div>
+          </div>
+          <div class="disc-result" id="discResult">
+            <div class="result-bar-wrap">
+              <div class="result-label">Real: <span id="realScore">—</span></div>
+              <div class="result-bar">
+                <div class="result-fill real-fill" id="realFill" style="width:0%"></div>
+              </div>
+            </div>
+            <div class="result-bar-wrap">
+              <div class="result-label">Fake: <span id="fakeScore">—</span></div>
+              <div class="result-bar">
+                <div class="result-fill fake-fill" id="fakeFill" style="width:0%"></div>
+              </div>
+            </div>
+            <div class="verdict" id="verdict">Tekan "Jalankan" untuk mulai</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-controls">
+        <button class="btn btn-primary btn-lg" id="runDemoBtn" onclick="runGANDemo()">
+          ⚡ Jalankan GAN
+        </button>
+        <button class="btn btn-outline" id="autoTrainBtn" onclick="toggleAutoTrain()">
+          🔄 Auto Training
+        </button>
+        <span class="epoch-counter">Epoch: <strong id="epochCount">0</strong></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── TRAINING SECTION ─── -->
+  <section id="training" class="section training-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Proses Training</div>
+        <h2>Siklus Training GAN</h2>
+        <p>Visualisasi langkah demi langkah bagaimana GAN dilatih</p>
+      </div>
+
+      <div class="training-steps">
+        <div class="training-step" id="tstep1" data-step="1">
+          <div class="tstep-num">1</div>
+          <div class="tstep-content">
+            <div class="tstep-icon">🎲</div>
+            <h3>Sample Noise</h3>
+            <p>Ambil random noise vector <code>z</code> dari distribusi Gaussian N(0,1)</p>
+            <div class="tstep-code">z = torch.randn(batch_size, latent_dim)</div>
+          </div>
+        </div>
+
+        <div class="step-connector"></div>
+
+        <div class="training-step" id="tstep2" data-step="2">
+          <div class="tstep-num">2</div>
+          <div class="tstep-content">
+            <div class="tstep-icon">⚡</div>
+            <h3>Generate Fake Data</h3>
+            <p>Generator mengubah noise menjadi data sintetis <code>x_fake</code></p>
+            <div class="tstep-code">x_fake = G(z)</div>
+          </div>
+        </div>
+
+        <div class="step-connector"></div>
+
+        <div class="training-step" id="tstep3" data-step="3">
+          <div class="tstep-num">3</div>
+          <div class="tstep-content">
+            <div class="tstep-icon">🔍</div>
+            <h3>Train Discriminator</h3>
+            <p>Update D untuk memaksimalkan kemampuan membedakan data asli vs palsu</p>
+            <div class="tstep-code">loss_D = -[log D(x_real) + log(1-D(x_fake))]</div>
+          </div>
+        </div>
+
+        <div class="step-connector"></div>
+
+        <div class="training-step" id="tstep4" data-step="4">
+          <div class="tstep-num">4</div>
+          <div class="tstep-content">
+            <div class="tstep-icon">🎭</div>
+            <h3>Train Generator</h3>
+            <p>Update G untuk meminimalkan kemampuan D membedakan data palsu</p>
+            <div class="tstep-code">loss_G = -log(D(G(z)))</div>
+          </div>
+        </div>
+
+        <div class="step-connector"></div>
+
+        <div class="training-step" id="tstep5" data-step="5">
+          <div class="tstep-num">5</div>
+          <div class="tstep-content">
+            <div class="tstep-icon">🔁</div>
+            <h3>Iterasi</h3>
+            <p>Ulangi sampai Nash Equilibrium: D(G(z)) ≈ 0.5</p>
+            <div class="tstep-code">repeat until convergence</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRAINING LOSS CHART -->
+      <div class="loss-chart-wrapper">
+        <div class="chart-header">
+          <h3>📈 Simulasi Loss Curves</h3>
+          <div class="chart-legend">
+            <span class="legend-item gen-legend">Generator Loss</span>
+            <span class="legend-item disc-legend">Discriminator Loss</span>
+          </div>
+        </div>
+        <canvas id="lossChart" width="800" height="300"></canvas>
+        <div class="chart-controls">
+          <button class="btn btn-sm btn-primary" id="simLossBtn" onclick="simulateLoss()">
+            📊 Simulasi Training
+          </button>
+          <button class="btn btn-sm btn-outline" id="clearLossBtn" onclick="clearLossChart()">
+            🗑 Clear
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── APPLICATIONS SECTION ─── -->
+  <section id="applications" class="section apps-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Implementasi</div>
+        <h2>Aplikasi GAN di Dunia Nyata</h2>
+        <p>GAN telah merevolusi berbagai bidang dalam AI dan kreativitas digital</p>
+      </div>
+
+      <div class="apps-grid">
+        <div class="app-card" id="app1">
+          <div class="app-canvas-wrap">
+            <canvas class="app-canvas" id="appCanvas1" width="260" height="180"></canvas>
+            <div class="app-overlay">
+              <span>Image Synthesis</span>
+            </div>
+          </div>
+          <div class="app-info">
+            <div class="app-icon">🖼️</div>
+            <h3>Image Generation</h3>
+            <p>StyleGAN, BigGAN menghasilkan wajah, pemandangan, dan seni yang sangat realistis dari noise.</p>
+            <div class="app-tag">Computer Vision</div>
+          </div>
+        </div>
+
+        <div class="app-card" id="app2">
+          <div class="app-canvas-wrap">
+            <canvas class="app-canvas" id="appCanvas2" width="260" height="180"></canvas>
+            <div class="app-overlay">
+              <span>Style Transfer</span>
+            </div>
+          </div>
+          <div class="app-info">
+            <div class="app-icon">🎨</div>
+            <h3>Style Transfer</h3>
+            <p>CycleGAN mengubah gaya gambar (foto → lukisan, musim panas → musim dingin) tanpa pasangan data.</p>
+            <div class="app-tag">Creative AI</div>
+          </div>
+        </div>
+
+        <div class="app-card" id="app3">
+          <div class="app-canvas-wrap">
+            <canvas class="app-canvas" id="appCanvas3" width="260" height="180"></canvas>
+            <div class="app-overlay">
+              <span>Data Augmentation</span>
+            </div>
+          </div>
+          <div class="app-info">
+            <div class="app-icon">🏥</div>
+            <h3>Medical Imaging</h3>
+            <p>Augmentasi data MRI/CT scan untuk melatih model diagnostik dengan data terbatas.</p>
+            <div class="app-tag">Healthcare AI</div>
+          </div>
+        </div>
+
+        <div class="app-card" id="app4">
+          <div class="app-canvas-wrap">
+            <canvas class="app-canvas" id="appCanvas4" width="260" height="180"></canvas>
+            <div class="app-overlay">
+              <span>Super Resolution</span>
+            </div>
+          </div>
+          <div class="app-info">
+            <div class="app-icon">🔭</div>
+            <h3>Super Resolution</h3>
+            <p>SRGAN meningkatkan resolusi gambar rendah menjadi gambar berkualitas tinggi dengan detail tajam.</p>
+            <div class="app-tag">Image Processing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── VARIANTS SECTION ─── -->
+  <section class="section variants-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Varian GAN</div>
+        <h2>Evolusi Arsitektur GAN</h2>
+        <p>Dari GAN original hingga varian-varian canggih yang mengatasi berbagai keterbatasan</p>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item" id="tl1">
+          <div class="tl-year">2014</div>
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <h4>Vanilla GAN</h4>
+            <p>Arsitektur original oleh Ian Goodfellow. Fully-connected layers, menggunakan minimax game.</p>
+            <div class="tl-tag">Foundational</div>
+          </div>
+        </div>
+
+        <div class="timeline-item" id="tl2">
+          <div class="tl-year">2015</div>
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <h4>DCGAN</h4>
+            <p>Deep Convolutional GAN – mengganti FC layer dengan Conv layer untuk menghasilkan gambar lebih realistis.</p>
+            <div class="tl-tag">Image Quality</div>
+          </div>
+        </div>
+
+        <div class="timeline-item" id="tl3">
+          <div class="tl-year">2017</div>
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <h4>WGAN & CycleGAN</h4>
+            <p>WGAN menggunakan Wasserstein distance untuk training lebih stabil. CycleGAN untuk image-to-image translation tanpa pasangan.</p>
+            <div class="tl-tag">Stability</div>
+          </div>
+        </div>
+
+        <div class="timeline-item" id="tl4">
+          <div class="tl-year">2018</div>
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <h4>StyleGAN & BigGAN</h4>
+            <p>StyleGAN menggunakan style-based generator untuk kontrol yang lebih presisi. BigGAN untuk generasi gambar skala besar.</p>
+            <div class="tl-tag">High Fidelity</div>
+          </div>
+        </div>
+
+        <div class="timeline-item" id="tl5">
+          <div class="tl-year">2021+</div>
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <h4>StyleGAN3 & GAN-based Diffusion</h4>
+            <p>Integrasi GAN dengan Diffusion Models dan Transformers untuk kualitas dan kontrol yang belum pernah ada sebelumnya.</p>
+            <div class="tl-tag">State-of-Art</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="nav-icon">🧠</span>
+          <span>GAN Architecture</span>
+        </div>
+        <p class="footer-desc">
+          Ilustrasi Interaktif Generative Adversarial Network<br />
+          Kecerdasan Buatan — Semester 6
+        </p>
+        <div class="footer-ref">
+          <strong>Referensi:</strong> Goodfellow et al., "Generative Adversarial Nets," NIPS 2014
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
