@@ -6,13 +6,12 @@ PyMuPDF>=1.25.0
 langchain-text-splitters>=0.3.8
 
 # === Embedding ===
-# FlagEmbedding: BGE-M3 hybrid (dense + sparse/lexical) dalam satu model.
-FlagEmbedding>=1.3.0
+# DistilBERT via SentenceTransformers untuk dense embedding (768-d)
 sentence-transformers>=3.0.0
-einops>=0.7.0
+transformers>=4.30.0
+torch
 
 # === Vector Database ===
-# Butuh dukungan sparse vectors + Query API (Prefetch/Fusion RRF) -> >= 1.10
 qdrant-client>=1.12.0
 
 # === HTTP Client (CrossRef API) ===
