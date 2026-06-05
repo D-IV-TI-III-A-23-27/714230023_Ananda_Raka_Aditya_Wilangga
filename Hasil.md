@@ -58,8 +58,6 @@ Variasi ukuran chunk menunjukkan perbedaan pada Hit Rate. Ukuran chunk **500** m
 - Chunk 1000: 80%
 - Chunk 2000: 100%
 
-> **Temuan:** Ukuran chunk 500 paling optimal untuk model DistilBERT pada dataset ini.
-
 ### 2. Pengaruh Overlap (0%, 10%, 20%, 50%)
 
 Variasi overlap menunjukkan perbedaan pada Hit Rate:
@@ -69,7 +67,6 @@ Variasi overlap menunjukkan perbedaan pada Hit Rate:
 - Overlap 200 (20%): 80%
 - Overlap 500 (50%): 100%
 
-> **Temuan:** Overlap 0 memberikan hasil terbaik.
 
 ### 3. Pengaruh Top-K (3, 5, 10) — Faktor Paling Berpengaruh
 
